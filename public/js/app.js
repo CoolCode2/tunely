@@ -33,13 +33,25 @@ sampleAlbums.push({
              genres: [ 'piano' ]
            });
 /* end of hard-coded data */
-
+///all of these are pushed into the array above
 
 
 
 $(document).ready(function() {
   console.log('app.js loaded!');
+  //sampleAlbums.forEach(function (sampleAlbums){
+    //renderAlbum(sampleAlbums);
 
+//ajax is getting info from the controller
+$.get('/api/albums', function(res){
+  console.log(res); // this logs the kanye array from the server page
+  res.forEach(function(thisAlbum){
+    renderAlbum(thisAlbum);
+  });
+});
+  
+  
+  
 });
 
 
@@ -65,15 +77,15 @@ function renderAlbum(album) {
   "                    <ul class='list-group'>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Album Name:</h4>" +
-  "                        <span class='album-name'>" + "HARDCODED ALBUM NAME" + "</span>" +
+  "                        <span class='album-name'>" + album.name + "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Artist Name:</h4>" +
-  "                        <span class='artist-name'>" +  "HARDCODED ARTIST NAME"+ "</span>" +
+  "                        <span class='artist-name'>" +  album.artistName+ "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Released date:</h4>" +
-  "                        <span class='album-releaseDate'>" + "HARDCODED ALBUM RELEASE" + "</span>" +
+  "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
   "                    </ul>" +
   "                  </div>" +
@@ -90,5 +102,9 @@ function renderAlbum(album) {
   "          <!-- end one album -->";
 
   // render to the page with jQuery
+  console.log("album appended");
+  //grab #albums id and add albumHtml to it
+  $('#albums').append(albumHtml);
+
 
 }
