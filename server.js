@@ -2,6 +2,7 @@
 
 //require express in our app
 var express = require('express');
+var bodyParser = require('body-parser');
 // generate a new express app and call it 'app'
 var app = express();
 
@@ -9,6 +10,9 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 var db = require('./models');
+
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
 /************
  * DATABASE *
  ************/
@@ -53,6 +57,22 @@ app.get('/api/albums', function album_index(req, res){
       res.json(albums);
     });
     
+});
+
+///////POST ROUTE  IS WORKING
+
+app.post('/api/albums', function album_post(req,res){
+
+  var postAlbum = new db.Album({
+              artistName: req.body.artistName,
+              name: req.body.name,
+              releaseDate: req.body.releaseDate,
+              genres: [req.body.genres]
+  });
+ 
+  postAlbum.save(function(err, album){
+    res.json(req.body.name+" was added");
+  });
 });
 
 /**********
