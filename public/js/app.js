@@ -56,9 +56,33 @@ $(document).ready(function() {
     e.preventDefault();
     var serialData = $("#album-form").find("select,textarea, input").serialize();
     console.log("serialData: " + serialData);
-    //console.log($(serialData).serialize());
+    var inputFields = $("#album-form").find("select,textarea, input");
+    console.log(inputFields);
+   // $('#album-form').trigger("reset"); --> doesnt work yet
+
     
-  }); 
+   ////  serialDATA CAN BE USED DIRECTLY IN AJAX REQUEST  ////
+
+    $.ajax({
+      url: 'http://localhost:3000/api/albums',
+      type: 'POST',
+      data: serialData // <---- <-- - - < - - -
+      //successfully updates DB
+    })
+    .done(function(){
+        // go into the server, get all the albums, and render to page
+        //just like the .forEach function at the top
+        //and just like the route in the server
+        $.get('/api/albums', function(res){
+          res.forEach(function(thisAlbum){
+            renderAlbum(thisAlbum);
+
+          });
+        });
+        
+    });
+
+  }); //Submit button function end 
       
   
   
