@@ -38,19 +38,31 @@ sampleAlbums.push({
 
 
 $(document).ready(function() {
-  console.log('app.js loaded!');
-  //sampleAlbums.forEach(function (sampleAlbums){
+    console.log('app.js loaded!');
+    //sampleAlbums.forEach(function (sampleAlbums){
     //renderAlbum(sampleAlbums);
 
 //ajax is getting info from the controller
-$.get('/api/albums', function(res){
-  console.log(res); // this logs the kanye array from the server page
-  res.forEach(function(thisAlbum){
-    renderAlbum(thisAlbum);
+  $.get('/api/albums', function(res){
+     // this logs the kanye array from the server page
+    res.forEach(function(thisAlbum){
+      renderAlbum(thisAlbum);
+    });
   });
-});
+  
+  //grab the form data and seria;ize it
+  
+ $('#singlebutton').on("click", function(e){
+    e.preventDefault();
+    var serialData = $("#album-form").find("select,textarea, input").serialize();
+    console.log("serialData: " + serialData);
+    //console.log($(serialData).serialize());
+    
+  }); 
+      
   
   
+ 
   
 });
 
@@ -60,7 +72,7 @@ $.get('/api/albums', function(res){
 
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
-  console.log('rendering album:', album);
+  //console.log('rendering album:', album);
 
   var albumHtml =
   "        <!-- one album -->" +
@@ -102,7 +114,7 @@ function renderAlbum(album) {
   "          <!-- end one album -->";
 
   // render to the page with jQuery
-  console.log("album appended");
+  
   //grab #albums id and add albumHtml to it
   $('#albums').append(albumHtml);
 
