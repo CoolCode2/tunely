@@ -45,9 +45,13 @@ $(document).ready(function() {
 //ajax is getting info from the controller
   $.get('/api/albums', function(res){
      // this logs the kanye array from the server page
+    
+
     res.forEach(function(thisAlbum){
       renderAlbum(thisAlbum);
+
     });
+
   });
   
   //grab the form data and seria;ize it
@@ -57,12 +61,13 @@ $(document).ready(function() {
     var serialData = $("#album-form").find("select,textarea, input").serialize();
     console.log("serialData: " + serialData);
     var inputFields = $("#album-form").find("select,textarea, input");
-    console.log(inputFields);
+    
    // $('#album-form').trigger("reset"); --> doesnt work yet
 
     
    ////  serialDATA CAN BE USED DIRECTLY IN AJAX REQUEST  ////
-
+   /// it doesnt need to be Parsed, jqery can take in the serialized data and knows waht to do...
+   //  BUT, it also cannot be PARSED b/c JSON.parse can only parse objects that are in string form.
     $.ajax({
       url: 'http://localhost:3000/api/albums',
       type: 'POST',

@@ -3,6 +3,30 @@
 
 var db = require("./models");
  
+var sampleSongs = [];
+
+sampleSongs.push({ name: 'Famous',
+                   trackNumber: 1
+});
+sampleSongs.push({ name: "All of the Lights",
+                   trackNumber: 2
+});
+sampleSongs.push({ name: 'Guilt Trip',
+                   trackNumber: 3
+});
+sampleSongs.push({ name: 'Paranoid',
+                   trackNumber: 4
+});
+sampleSongs.push({ name: 'Ultralight Beam',
+                   trackNumber: 5
+});
+sampleSongs.push({ name: 'Runaway',
+                   trackNumber: 6
+});
+sampleSongs.push({ name: 'Stronger',
+                   trackNumber: 7
+}); 
+
 var albumsList =[];
  albumsList.push({
              
@@ -33,6 +57,19 @@ albumsList.push({
               genres: [ 'r&b', 'electropop', 'synthpop' ]
             });
 
+//for each over the albums not the songs
+//add all songs to each album
+// SUCCESS for Loop all songs into the DB
+albumsList.forEach(
+  function(eachAlbum, index){
+  eachAlbum.songs = sampleSongs;
+  
+
+});
+var i;
+for (i = 0; i < albumsList.length; ++i) {
+      console.log(albumsList[i].songs);
+    }
 
 db.Album.remove({}, function(err, albums){
 
@@ -40,6 +77,8 @@ db.Album.remove({}, function(err, albums){
     if (err) { return console.log('ERROR', err); }
     console.log("all albums:", albums);
     console.log("created", albums.length, "albums");
+    
+  
     process.exit();
   });
 
