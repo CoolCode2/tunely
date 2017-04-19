@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 /* hard-coded data */
 
-
+//hitting this endpoints with ajax show on the frontend
 
 
 /**********
@@ -73,6 +73,33 @@ app.post('/api/albums', function album_post(req,res){
   postAlbum.save(function(err, album){
     res.json(req.body.name+" was added");
   });
+});
+////////////////////// step 7
+app.get('/api/albums/:id', function albumShow(req,res){
+  //go to the db and find the album with id form the url
+  db.Album.findOne({_id: req.params.id}, function(err, album){
+    //respond with json
+    res.json(album);
+  });
+});
+/////////////////////////////step 6
+///
+app.post('/api/albums/:albumId/songs', function songsCreate(req, res) {
+  //go to db find one album with id from url string {_id: req.params.albumId} 
+  db.Album.findOne({_id: req.params.albumId}, function(err, album) {
+    if (err) { console.log('error album+songs post route:' + err); }
+/// model for making new song
+    var song = new db.Song(req.body);
+    /// push the song into the album's songs array
+    album.songs.push(song);
+    //save the album into the db
+    album.save(function(err, savedAlbum) {
+      if (err) { console.log('error', err); }
+      console.log('album with new song saved:', savedAlbum);
+      res.json(song);
+    });
+  });
+
 });
 
 /**********
